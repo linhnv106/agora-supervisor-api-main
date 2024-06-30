@@ -7,6 +7,7 @@ import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { NullableType } from 'src/utils/types/nullable.type';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { PaginationResultType } from 'src/utils/types/pagination-result.type';
+import { Status } from 'src/utils/enums';
 
 @Injectable()
 export class UsersService {
@@ -55,8 +56,24 @@ export class UsersService {
     return { total, data };
   }
 
-  async update(id: User['id'], payload: DeepPartial<User>): Promise<User> {
-    return this.repository.save(this.repository.create({ id, ...payload }));
+  async update(userId: User['id'], payload: DeepPartial<User>): Promise<User> {
+   
+    if(payload.status == Status.Inactive)
+      {
+        const myEntity = this.repository
+        .create({ id:userId , fullName: payload.fullName,status:Status.Inactive })
+        .save();
+    
+        return myEntity;
+      }
+      else
+      {
+        const myEntity = this.repository
+        .create({ id:userId , fullName: payload.fullName,status:Status.Active })
+        .save();
+    
+        return myEntity;
+      }
   }
 
   async softDelete(id: User['id']): Promise<void> {

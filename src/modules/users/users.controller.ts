@@ -24,6 +24,7 @@ import { RoleEnum } from '../roles/roles.enum';
 import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PaginationResultType } from 'src/utils/types/pagination-result.type';
+import { Status } from 'src/utils/enums';
 
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'), RolesGuard)
